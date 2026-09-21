@@ -2,17 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 /**
- * Lightbox reusable. Bungkus media (img/video) dengan komponen ini,
- * klik otomatis buka fullscreen dengan animasi fade+zoom.
- *
- * Overlay-nya di-render lewat React Portal langsung ke document.body,
- * supaya position:fixed tidak "terkurung" oleh ancestor yang punya
- * CSS transform (misalnya animasi fade-in-up di .gallery-item).
- *
- * Contoh pakai:
- * <Lightbox type="image" src="/images/foto1.jpg" alt="Foto 1">
- *   <img src="/images/foto1.jpg" alt="Foto 1" />
- * </Lightbox>
+ * Lightbox reusable.
+ * Sudah dilengkapi proteksi anti klik kanan (Save image as) & anti-drag.
  */
 export default function Lightbox({ type = 'image', src, alt = '', children, className = '' }) {
   const [open, setOpen] = useState(false);
@@ -49,10 +40,21 @@ export default function Lightbox({ type = 'image', src, alt = '', children, clas
     else v.pause();
   };
 
+  // Handler Anti Klik Kanan
+  const handleContextMenu = (e) => {
+    e.preventDefault();
+  };
+
+  // Handler Anti Drag / Tarik Gambar
+  const handleDragStart = (e) => {
+    e.preventDefault();
+  };
+
   const overlay = (
     <div
       className={`fullscreen-overlay${open ? ' is-open' : ''}`}
       onClick={() => setOpen(false)}
+      onContextMenu={handleContextMenu}
     >
       <button
         className="fullscreen-close"
@@ -66,7 +68,19 @@ export default function Lightbox({ type = 'image', src, alt = '', children, clas
       </button>
 
       <div className="fullscreen-content" onClick={(e) => e.stopPropagation()}>
-        {open && type === 'image' && <img src={src} alt={alt} />}
+        {open && type === 'image' && (
+          <img 
+            src={src} 
+            alt={alt} 
+            onContextMenu={handleContextMenu}
+            onDragStart={handleDragStart}
+            style={{ 
+              pointerEvents: 'none', 
+              userSelect: 'none', 
+              WebkitUserSelect: 'none' 
+            }}
+          />
+        )}
         {open && type === 'video' && (
           <>
             <video
@@ -75,7 +89,10 @@ export default function Lightbox({ type = 'image', src, alt = '', children, clas
               loop
               muted={muted}
               playsInline
+              controlsList="nodownload"
+              onContextMenu={handleContextMenu}
               onClick={toggleVideoPlay}
+              style={{ userSelect: 'none' }}
             />
             <button
               className="fullscreen-mute"
@@ -95,7 +112,11 @@ export default function Lightbox({ type = 'image', src, alt = '', children, clas
 
   return (
     <>
-      <div className={className} style={{ cursor: 'zoom-in' }} onClick={() => setOpen(true)}>
+      <div 
+        className={className} 
+        style={{ cursor: 'zoom-in' }} 
+        onClick={() => setOpen(true)}
+      >
         {children}
       </div>
       {createPortal(overlay, document.body)}
