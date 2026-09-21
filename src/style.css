@@ -152,15 +152,21 @@ main.gallery-main {
   background-attachment: fixed;
 }
 
-.gallery-title{
+.gallery-title {
   text-align: center;
   font-size: clamp(1.8rem, 4vw, 2.6rem);
   font-weight: 400;
   margin-bottom: 40px;
   color: #f6f4ef;
+  
+  /* Mencegah judul di-select / di-highlight */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
-.gallery-grid{
+.gallery-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
@@ -168,18 +174,18 @@ main.gallery-main {
   margin: 0 auto;
 }
 
-@keyframes galleryFadeInUp{
-  from{
+@keyframes galleryFadeInUp {
+  from {
     opacity: 0;
     transform: translateY(24px);
   }
-  to{
+  to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-.gallery-item{
+.gallery-item {
   border-radius: 14px;
   overflow: hidden;
   background: var(--topbar-bg);
@@ -192,71 +198,94 @@ main.gallery-main {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.gallery-item:hover{
+.gallery-item:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.18);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
 }
 
-.gallery-item:nth-child(1){ animation-delay: 0.05s; }
-.gallery-item:nth-child(2){ animation-delay: 0.15s; }
-.gallery-item:nth-child(3){ animation-delay: 0.25s; }
-.gallery-item:nth-child(4){ animation-delay: 0.35s; }
-.gallery-item:nth-child(5){ animation-delay: 0.45s; }
-.gallery-item:nth-child(6){ animation-delay: 0.55s; }
-.gallery-item:nth-child(7){ animation-delay: 0.65s; }
+.gallery-item:nth-child(1) { animation-delay: 0.05s; }
+.gallery-item:nth-child(2) { animation-delay: 0.15s; }
+.gallery-item:nth-child(3) { animation-delay: 0.25s; }
+.gallery-item:nth-child(4) { animation-delay: 0.35s; }
+.gallery-item:nth-child(5) { animation-delay: 0.45s; }
+.gallery-item:nth-child(6) { animation-delay: 0.55s; }
+.gallery-item:nth-child(7) { animation-delay: 0.65s; }
 
-.media-wrap{
+.media-wrap {
   aspect-ratio: 4 / 3;
   border-radius: 8px;
   overflow: hidden;
   background: #e8e5dd;
+  cursor: pointer;
 }
 
 .media-wrap img,
-.media-wrap video{
+.media-wrap video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
   transition: transform 0.4s ease;
+
+  /* ===== PROTEKSI ANTI-CURI/DOWNLOAD ===== */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+
+  /* Menutup respon mouse langsung ke img agar klik kanan tidak memicu 'Save Image As' */
+  pointer-events: none;   
 }
 
 .gallery-item:hover .media-wrap img,
-.gallery-item:hover .media-wrap video{
+.gallery-item:hover .media-wrap video {
   transform: scale(1.06);
 }
 
-.gallery-caption{
+.gallery-caption {
   color: var(--accent);
   font-size: 0.9rem;
   font-weight: 600;
   padding: 0 4px;
+  
+  /* Mencegah teks caption di-block/salin */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
-@media (max-width: 860px){
-  .gallery-grid{
+/* Responsive Mobile / Tablet */
+@media (max-width: 860px) {
+  .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 500px){
-  .gallery-grid{
+@media (max-width: 500px) {
+  .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 14px;
     max-width: 100%;
     padding: 0 8px;
   }
 
-  main.gallery-main{
+  main.gallery-main {
     padding: 40px 16px 60px;
+    background-attachment: scroll; /* Menghindari lag scroll di layar HP */
   }
 
-  .gallery-item{
+  .gallery-item {
     padding: 6px 6px 10px;
     border-radius: 10px;
   }
 
-  .gallery-caption{
+  .gallery-caption {
     font-size: 0.75rem;
   }
 }
