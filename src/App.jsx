@@ -14,17 +14,25 @@ export default function App() {
 
   useEffect(() => {
     const fetchGlobalData = async () => {
+      const startTime = Date.now();
+
       try {
         setIsLoading(true);
         // Mengambil data server asli dari GitHub API
-        const response = await fetch('https://api.github.com/users/eltriputrarb-bit ');
+        const response = await fetch('https://api.github.com/users/eltriputrarb-bit');
         const data = await response.json();
         setUserData(data);
       } catch (error) {
         console.error("Gagal terhubung ke server:", error);
       } finally {
-        // Loading dimatikan HANYA setelah server merespons
-        setIsLoading(false);
+        const elapsedTime = Date.now() - startTime;
+        const minLoadingTime = 3000; // Tampilkan loading NERV minimal 3,0 detik
+
+        const remainingTime = Math.max(0, minLoadingTime - elapsedTime);
+
+        setTimeout(() => {
+          setIsLoading(false);
+        }, remainingTime);
       }
     };
 
