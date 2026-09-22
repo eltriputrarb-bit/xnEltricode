@@ -859,6 +859,7 @@ main.profile-main {
   gap: 4px;
 }
 
+/* Default Mobile / Android: font-size 0.67rem */
 .school-name {
   font-weight: 600;
   color: #ffffff;
@@ -870,7 +871,7 @@ main.profile-main {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: #ff3333; /* Warna merah khas tema NERV */
   text-decoration: none;
   font-weight: 500;
@@ -879,15 +880,31 @@ main.profile-main {
 }
 
 .location-icon {
-  width: 14px;
-  height: 14px;
+  width: 13px;
+  height: 13px;
 }
 
 /* Efek Hover Keren pada "Lokasi Lihat" */
 .location-btn:hover {
   color: #ffffff;
   text-shadow: 0 0 8px rgba(255, 51, 51, 0.8);
-  transform: translateX(3px); /* Efek sedikit bergeser ke kanan */
+  transform: translateX(3px);
+}
+
+/* Layar Desktop (Lebar layar min-width 768px): font-size 0.85rem */
+@media (min-width: 768px) {
+  .school-name {
+    font-size: 0.85rem;
+  }
+  
+  .location-btn {
+    font-size: 0.85rem;
+  }
+
+  .location-icon {
+    width: 15px;
+    height: 15px;
+  }
 }
 
 /* ===== Respon Mobile/Android ===== */
