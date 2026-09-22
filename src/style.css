@@ -1495,3 +1495,109 @@ main.alamat-main{
   }
 }
 
+/* ===== LARGE NERV LOGO & SERVER LOADING ===== */
+/* Matikan scrollbar global jika ada overlay aktif */
+body:has(.loading-overlay) {
+  overflow: hidden;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 10, 12, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Ukuran Logo NERV Besar & Animasi Pendaran Merah */
+.nerv-logo-large {
+  width: 180px; /* Ukuran besar dominan */
+  height: auto;
+  object-fit: contain;
+  animation: logoPulseGlow 2s ease-in-out infinite alternate;
+}
+
+/* Container Indikator Status Server & Progress Bar */
+.server-status-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 240px;
+}
+
+/* Teks Status Loading Merah Neon */
+.loading-text {
+  color: #e63946;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 0;
+  text-shadow: 0 0 8px rgba(230, 57, 70, 0.6);
+  animation: textFlicker 1.5s ease-in-out infinite;
+}
+
+/* Outer Progress Bar Jaringan */
+.progress-bar-bg {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(230, 57, 70, 0.4);
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(230, 57, 70, 0.2);
+}
+
+/* Inner Progress Bar Fill */
+.progress-bar-fill {
+  height: 100%;
+  background: #e63946;
+  box-shadow: 0 0 12px #e63946;
+  transition: width 0.1s ease-out;
+}
+
+/* Angka Persentase Loading */
+.progress-percent {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.7rem;
+  font-family: monospace;
+}
+
+/* ===== KEYFRAMES ANIMASI ===== */
+
+/* Animasi Logo NERV Berdenyut & Menyala Merah */
+@keyframes logoPulseGlow {
+  0% {
+    transform: scale(0.95);
+    filter: drop-shadow(0 0 6px rgba(230, 57, 70, 0.4));
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 28px rgba(230, 57, 70, 0.95));
+    opacity: 1;
+  }
+}
+
+/* Animasi Kedip Teks Halus */
+@keyframes textFlicker {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
