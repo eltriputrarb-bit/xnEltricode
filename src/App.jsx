@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
-import Loading from './components/loading.jsx'; // Sesuaikan casing ('loading' atau 'Loading') jika perlu
+import Loading from './components/loading.jsx'; // Sesuaikan casing ('Loading.jsx' atau 'loading.jsx')
 
 import Home from './pages/Home';
 import About from './pages/About';
@@ -18,15 +18,21 @@ export default function App() {
 
       try {
         setIsLoading(true);
-        // Mengambil data server asli dari GitHub API
         const response = await fetch('https://api.github.com/users/eltriputrarb-bit');
-        const data = await response.json();
-        setUserData(data);
+        
+        // Cek apakah response sukses (status 200 OK)
+        if (response.ok) {
+          const data = await response.json();
+          setUserData(data);
+        } else {
+          // Jika kena Rate Limit (403), pakai data default tanpa error
+          console.warn(`GitHub API Info (${response.status}): Menggunakan data profil bawaan.`);
+        }
       } catch (error) {
         console.error("Gagal terhubung ke server:", error);
       } finally {
         const elapsedTime = Date.now() - startTime;
-        const minLoadingTime = 3000; // Tampilkan loading NERV minimal 3,0 detik
+        const minLoadingTime = 3800; // Tepat 3.8 detik
 
         const remainingTime = Math.max(0, minLoadingTime - elapsedTime);
 
@@ -41,7 +47,7 @@ export default function App() {
 
   return (
     <>
-      {/* Tampilkan overlay NERV jika masih loading data dari server */}
+      {/* Overlay Loading NERV berjalan tepat 3.8 detik */}
       {isLoading && <Loading />}
 
       <Header />
