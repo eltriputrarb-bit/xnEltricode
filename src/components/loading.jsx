@@ -1,30 +1,29 @@
 import React, { useState, useEffect } from 'react';
 
-export default function Loading() {
+export default function Loading({ progress = 0 }) {
   const [status, setStatus] = useState('CONNECTING TO SERVER...');
-  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // Simulasi visual persentase berjalan
-    const progressInterval = setInterval(() => {
-      setProgress((prev) => (prev >= 100 ? 100 : prev + 10));
-    }, 60);
-
-    // Teks indikator ala terminal NERV
-    const t1 = setTimeout(() => setStatus('AUTHENTICATING NETWORK...'), 200);
-    const t2 = setTimeout(() => setStatus('ESTABLISHING SECURE CONNECTION...'), 400);
+    // Teks menyesuaikan progress jaringan
+    const t1 = setTimeout(() => setStatus('AUTHENTICATING NETWORK...'), 500);
+    const t2 = setTimeout(() => setStatus('ESTABLISHING SECURE CONNECTION...'), 1000);
+    const t3 = setTimeout(() => setStatus('FETCHING USER PROFILE DATA...'), 1800);
+    const t4 = setTimeout(() => setStatus('SYNCHRONIZING MAGI SYSTEM...'), 2700);
+    const t5 = setTimeout(() => setStatus('CONNECTION ESTABLISHED'), 3400);
 
     return () => {
-      clearInterval(progressInterval);
       clearTimeout(t1);
       clearTimeout(t2);
+      clearTimeout(t3);
+      clearTimeout(t4);
+      clearTimeout(t5);
     };
   }, []);
 
   return (
     <div className="loading-overlay">
       <div className="loading-content">
-        {/* Logo NERV Besar */}
+        {/* Logo NERV */}
         <img 
           src="/images/logo.png" 
           alt="NERV Logo" 
@@ -37,7 +36,10 @@ export default function Loading() {
           <div className="progress-bar-bg">
             <div 
               className="progress-bar-fill" 
-              style={{ width: `${progress}%` }}
+              style={{ 
+                width: `${progress}%`,
+                transition: 'width 0.4s ease-out' // Bikin gerakan bar-nya halus
+              }}
             ></div>
           </div>
           <span className="progress-percent">{progress}%</span>
