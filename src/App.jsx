@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
-import Loading from './components/loading'; // Sesuaikan casing ('loading' atau 'Loading') jika perlu
+import Loading from './components/loading.jsx'; // Sesuaikan casing ('loading' atau 'Loading') jika perlu
 
 import Home from './pages/Home';
 import About from './pages/About';
