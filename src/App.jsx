@@ -14,16 +14,55 @@ export default function App() {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // Ritme simulasi jaringan server lambat / tertahan di tengah:
+    // Tahapan persentase jaringan
     const networkSteps = [
-      { pct: 20, delay: 200 },   // Koneksi dimulai
-      { pct: 30, delay: 600 },   // Handshake server
-      { pct: 50, delay: 1200 },  // Download data awal
-      { pct: 70, delay: 2000 },  // Jaringan mulai agak lambat / buffer
-      { pct: 80, delay: 2800 },  // Masih memproses / tertahan di server
-      { pct: 95, delay: 3500 },  // Hampir selesai (detik ke 3.5)
-      { pct: 100, delay: 4750 }  // Beneran 100% pas di paling akhir! (3.75 detik)
+      { pct: 1, delay: 10 },
+      { pct: 3, delay: 20 },
+      { pct: 5, delay: 30 },
+      { pct: 6, delay: 40 },
+      { pct: 8, delay: 50 },
+      { pct: 9, delay: 60 },
+      { pct: 10, delay: 70 },
+      { pct: 12, delay: 90 },
+      { pct: 15, delay: 100 },
+      { pct: 18, delay: 200 },
+      { pct: 20, delay: 300 },
+      { pct: 30, delay: 800 },
+      { pct: 34, delay: 900 },
+      { pct: 39, delay: 920 },
+      { pct: 40, delay: 1020 },
+      { pct: 47, delay: 1220 },
+      { pct: 49, delay: 1320 },
+      { pct: 50, delay: 1600 },
+      { pct: 54, delay: 1700 },
+      { pct: 63, delay: 1800 },
+      { pct: 64, delay: 2000 },
+      { pct: 68, delay: 2200 },
+      { pct: 70, delay: 2500 },
+      { pct: 72, delay: 2600 },
+      { pct: 74, delay: 2600 },
+      { pct: 78, delay: 2700 },
+      { pct: 79, delay: 2800 },
+      { pct: 80, delay: 3400 },
+      { pct: 82, delay: 3500 },
+      { pct: 84, delay: 3600 },
+      { pct: 86, delay: 3700 },
+      { pct: 88, delay: 3800 },
+      { pct: 89, delay: 3900 },
+      { pct: 90, delay: 4100 },
+      { pct: 91, delay: 4200 },
+      { pct: 93, delay: 4300 },
+      { pct: 95, delay: 4400 },
+      { pct: 96, delay: 4400 },
+      { pct: 97, delay: 4400 },
+      { pct: 98, delay: 4400 },
+      { pct: 99, delay: 4500 },
+      { pct: 100, delay: 4750 } // Menyentuh 100% di detik ke-4.75
     ];
+
+    // TOTAL LOADING: 10 detik (10000ms)
+    // Teks 100% & CONNECTION ESTABLISHED akan nahan lama selama ~1.75 detik!
+    const totalLoadingDuration = 10000;
 
     const timeouts = networkSteps.map(step => 
       setTimeout(() => setProgress(step.pct), step.delay)
@@ -46,7 +85,7 @@ export default function App() {
         console.error("Gagal terhubung ke server:", error);
       } finally {
         const elapsedTime = Date.now() - startTime;
-        const remainingTime = Math.max(0, 3800 - elapsedTime);
+        const remainingTime = Math.max(0, totalLoadingDuration - elapsedTime);
 
         setTimeout(() => {
           setIsLoading(false);
