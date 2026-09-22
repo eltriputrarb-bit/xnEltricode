@@ -14,16 +14,15 @@ export default function App() {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // Simulasi responsivitas jaringan server (ms)
-    // Cepat di awal, tertahan agak lama di 70%-80% (proses data), lalu cepat ke 100%
+    // Ritme simulasi jaringan server lambat / tertahan di tengah:
     const networkSteps = [
-      { pct: 20, delay: 200 },  // Inisialisasi
-      { pct: 30, delay: 500 },  // Request dikirim
-      { pct: 50, delay: 1000 }, // Server merespons
-      { pct: 70, delay: 1800 }, // Memuat paket data
-      { pct: 80, delay: 2700 }, // Menilai enkripsi / MAGI system
-      { pct: 95, delay: 3400 }, // Hampir selesai
-      { pct: 100, delay: 3800 } // Sinkronisasi tuntas
+      { pct: 20, delay: 200 },   // Koneksi dimulai
+      { pct: 30, delay: 600 },   // Handshake server
+      { pct: 50, delay: 1200 },  // Download data awal
+      { pct: 70, delay: 2000 },  // Jaringan mulai agak lambat / buffer
+      { pct: 80, delay: 2800 },  // Masih memproses / tertahan di server
+      { pct: 95, delay: 3500 },  // Hampir selesai (detik ke 3.5)
+      { pct: 100, delay: 4750 }  // Beneran 100% pas di paling akhir! (3.75 detik)
     ];
 
     const timeouts = networkSteps.map(step => 
