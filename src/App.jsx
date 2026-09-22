@@ -14,6 +14,20 @@ export default function App() {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+
+    // Pesan Kustom Console NERV Theme
+    console.log(
+      '%c NERV MAGI SYSTEM %c I LOVE U ❤️ ',
+      'background: #ff3333; color: #ffffff; font-weight: bold; padding: 4px 8px; border-radius: 3px 0 0 3px;',
+      'background: #111111; color: #ff3333; font-weight: bold; padding: 4px 8px; border: 1px solid #ff3333; border-radius: 0 3px 3px 0;'
+    );
+
+    console.log(
+      '%c"System operational. Developed with love by Eltri Putra Rombebua."%c',
+      'color: #00ff66; font-style: italic; font-size: 11px; font-family: monospace;',
+      ''
+    );
+    
     // Tahapan persentase jaringan
     const networkSteps = [
       { pct: 1, delay: 10 },
