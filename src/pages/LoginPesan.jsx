@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 export default function LoginPesan() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -23,6 +23,31 @@ export default function LoginPesan() {
       setErrorMsg('Kesalahan jaringan saat memuat pesan.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  // --- FUNGSI HAPUS PESAN (DENGAN PROTEKSI SECRET HEADER) ---
+  const handleDelete = async (id) => {
+    if (!window.confirm('Apakah Anda yakin ingin menghapus pesan ini?')) return;
+
+    try {
+      const res = await fetch(`/api/deletepesan?id=${id}`, {
+        method: 'DELETE',
+        headers: {
+          'x-admin-secret': 'SangatRahasia123', // Samakan kunci ini dengan yang ada di deletepesan.js / Vercel Env
+        },
+      });
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        // Hapus item dari state agar UI langsung ter-update
+        setPesanList((prevList) => prevList.filter((item) => item._id !== id));
+      } else {
+        alert(data.message || 'Gagal menghapus pesan.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Terjadi kesalahan saat menghapus pesan.');
     }
   };
 
@@ -83,6 +108,7 @@ export default function LoginPesan() {
                     <th style={styles.th}>Tanggal</th>
                     <th style={styles.th}>Nama</th>
                     <th style={styles.th}>Pesan</th>
+                    <th style={{ ...styles.th, textAlign: 'center' }}>Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -94,6 +120,15 @@ export default function LoginPesan() {
                       </td>
                       <td style={styles.td}><strong>{item.nama}</strong></td>
                       <td style={styles.td}>{item.pesan}</td>
+                      <td style={{ ...styles.td, textAlign: 'center' }}>
+                        <button
+                          onClick={() => handleDelete(item._id)}
+                          style={styles.deleteBtn}
+                          title="Hapus Pesan"
+                        >
+                          Hapus
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -144,10 +179,10 @@ export default function LoginPesan() {
   );
 }
 
-// Styling tema Gelap / Hitam
+// Style
 const styles = {
   pageBackground: {
-    backgroundColor: '#121212', // Background gelap pekat
+    backgroundColor: '#121212',
     minHeight: '85vh',
     display: 'flex',
     justifyContent: 'center',
@@ -155,7 +190,7 @@ const styles = {
     padding: '40px 20px',
   },
   card: {
-    background: '#1e1e1e', // Card abu-abu gelap
+    background: '#1e1e1e',
     border: '1px solid #333',
     padding: '32px',
     borderRadius: '8px',
@@ -209,6 +244,15 @@ const styles = {
     color: '#fff',
     border: '1px solid #555',
     borderRadius: '4px',
+    cursor: 'pointer',
+  },
+  deleteBtn: {
+    padding: '4px 10px',
+    background: '#d32f2f',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '4px',
+    fontSize: '0.8rem',
     cursor: 'pointer',
   },
   error: { color: '#ff4d4d', fontSize: '0.85rem', textAlign: 'center', margin: '0' },
