@@ -1,9 +1,11 @@
-import dbConnect from '../lib/dbConnect'; // Sesuaikan path dbConnect milikmu
-import Pesan from '../models/Pesan';       // Sesuaikan path model Pesan milikmu
+import dbConnect from '../lib/dbConnect'; // Pastikan path lib dbConnect benar
+import Pesan from '../models/Pesan';       // Pastikan path model Pesan benar
 import mongoose from 'mongoose';
 
 export default async function handler(req, res) {
-  // Hanya izinkan method DELETE
+  // Set header agar selalu merespon JSON
+  res.setHeader('Content-Type', 'application/json');
+
   if (req.method !== 'DELETE') {
     return res.status(405).json({ 
       success: false, 
@@ -11,7 +13,7 @@ export default async function handler(req, res) {
     });
   }
 
-  // Validasi Header Rahasia Admin
+  // Cek Secret Header
   const clientSecret = req.headers['x-admin-secret'];
   const serverSecret = process.env.ADMIN_SECRET_KEY;
 
@@ -32,10 +34,10 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Konek ke MongoDB
+    // 1. Konek ke Database
     await dbConnect();
 
-    // Validasi format ID MongoDB
+    // 2. Cek validitas ID MongoDB
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ 
         success: false, 
@@ -43,13 +45,13 @@ export default async function handler(req, res) {
       });
     }
 
-    // Hapus data
+    // 3. Hapus data
     const deletedPesan = await Pesan.findByIdAndDelete(id);
 
     if (!deletedPesan) {
       return res.status(404).json({ 
         success: false, 
-        message: 'Pesan tidak ditemukan' 
+        message: 'Pesan tidak ditemukan di database' 
       });
     }
 
@@ -62,7 +64,7 @@ export default async function handler(req, res) {
     console.error('Error deletepesan:', error);
     return res.status(500).json({ 
       success: false, 
-      message: error.message || 'Terjadi kesalahan pada server' 
+      message: error.message || 'Terjadi kesalahan saat menghapus pesan' 
     });
   }
-}
+} 
