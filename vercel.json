@@ -9,6 +9,10 @@
       "destination": "/api/loginpesan.js"
     },
     {
+      "source": "/api/getpesan",
+      "destination": "/api/getpesan.js"
+    },
+    {
       "source": "/((?!api/).*)",
       "destination": "/index.html"
     }
