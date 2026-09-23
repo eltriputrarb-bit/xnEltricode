@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Profile from './pages/Profile';
 import Alamat from './pages/Alamat';
+import LoginPesan from './pages/LoginPesan';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -17,7 +18,7 @@ export default function App() {
 
     // Pesan Kustom Console NERV Theme
     console.log(
-  '%c I LOVE U / ELTRI %c System Status: ONLINE ',
+  '%c I LOVE U / ELTRI     %c System Status: ONLINE ',
   'font-size: 14px; font-weight: bold; color: #ff3333; text-shadow: 0 0 8px #ff3333; padding: 6px;',
   'font-size: 12px; color: #00ff66; padding: 6px;'
 );
@@ -123,6 +124,7 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/alamat" element={<Alamat />} />
+        <Route path="/loginpesan" element={<LoginPesan />} />
       </Routes>
     </>
   );
