@@ -17,10 +17,10 @@ export default function App() {
 
     // Pesan Kustom Console NERV Theme
     console.log(
-      '%c NERV MAGI SYSTEM %c I LOVE U ❤️ ',
-      'background: #ff3333; color: #ffffff; font-weight: bold; padding: 4px 8px; border-radius: 3px 0 0 3px;',
-      'background: #111111; color: #ff3333; font-weight: bold; padding: 4px 8px; border: 1px solid #ff3333; border-radius: 0 3px 3px 0;'
-    );
+  '%c I LOVE U / ELTRI %c System Status: ONLINE ',
+  'font-size: 14px; font-weight: bold; color: #ff3333; text-shadow: 0 0 8px #ff3333; padding: 6px;',
+  'font-size: 12px; color: #00ff66; padding: 6px;'
+);
 
     console.log(
       '%c"System operational. Developed with love by Eltri Putra Rombebua."%c',
