@@ -14,7 +14,7 @@
     },
     {
       "source": "/api/deletepesan",
-      "destination": "/api/deletepesan.js"
+      "destination": "/src/pages/api/deletepesan.js"
     },
     {
       "source": "/((?!api/).*)",
