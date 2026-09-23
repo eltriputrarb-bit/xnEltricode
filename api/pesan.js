@@ -1,9 +1,7 @@
 import { MongoClient } from 'mongodb';
 
-const uri = process.env.MONGODB_URI;
-
 export default async function handler(req, res) {
-  // CORS Headers
+  // 1. Header CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -16,10 +14,12 @@ export default async function handler(req, res) {
     return res.status(405).json({ success: false, message: 'Method Not Allowed' });
   }
 
+  const uri = process.env.MONGODB_URI;
+
   if (!uri) {
-    return res.status(500).json({ 
-      success: false, 
-      message: 'MONGODB_URI belum terpasang di Vercel Environment Variables.' 
+    return res.status(500).json({
+      success: false,
+      message: 'MONGODB_URI belum diset di Environment Variables Vercel!',
     });
   }
 
@@ -29,9 +29,13 @@ export default async function handler(req, res) {
     const { nama, pesan } = req.body || {};
 
     if (!nama || !pesan) {
-      return res.status(400).json({ success: false, message: 'Nama dan pesan wajib diisi!' });
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Nama dan pesan tidak boleh kosong.' 
+      });
     }
 
+    // Connect ke MongoDB Atlas
     client = new MongoClient(uri);
     await client.connect();
 
@@ -42,13 +46,16 @@ export default async function handler(req, res) {
       createdAt: new Date(),
     });
 
-    return res.status(200).json({ success: true, message: 'Pesan berhasil terkirim!' });
+    return res.status(200).json({
+      success: true,
+      message: 'Pesan berhasil terkirim!',
+    });
   } catch (error) {
-    console.error('Error Mongo:', error);
-    return res.status(500).json({ 
-      success: false, 
-      message: 'Gagal koneksi ke MongoDB', 
-      errorDetail: error.message 
+    console.error('MongoDB Connection Error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Gagal menghubungkan ke database.',
+      error: error.message,
     });
   } finally {
     if (client) {
