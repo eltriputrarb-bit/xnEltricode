@@ -13,6 +13,10 @@
       "destination": "/api/getpesan.js"
     },
     {
+      "source": "/api/deletepesan",
+      "destination": "/api/deletepesan.js"
+    },
+    {
       "source": "/((?!api/).*)",
       "destination": "/index.html"
     }
