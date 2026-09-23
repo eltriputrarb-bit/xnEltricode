@@ -8,7 +8,6 @@ export default function LoginPesan() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-  // Fungsi Fetch Daftar Pesan
   const fetchPesan = async () => {
     setLoading(true);
     try {
@@ -43,7 +42,7 @@ export default function LoginPesan() {
 
       if (response.ok && data.success) {
         setIsLoggedIn(true);
-        fetchPesan(); // Panggil data pesan setelah login
+        fetchPesan();
       } else {
         setErrorMsg(data.message || 'Username atau password salah.');
       }
@@ -62,20 +61,19 @@ export default function LoginPesan() {
     setPesanList([]);
   };
 
-  // TAMPILAN DASHBOARD HISTORY PESAN (Jika sudah Login)
   if (isLoggedIn) {
     return (
-      <div style={styles.container}>
+      <div style={styles.pageBackground}>
         <div style={styles.dashboardCard}>
           <div style={styles.header}>
-            <h2>History Pesan Masuk</h2>
+            <h2 style={styles.dashboardTitle}>History Pesan Masuk</h2>
             <button onClick={handleLogout} style={styles.logoutBtn}>Logout</button>
           </div>
 
           {loading ? (
-            <p style={{ color: '#fff' }}>Memuat pesan...</p>
+            <p style={{ color: '#ccc' }}>Memuat pesan...</p>
           ) : pesanList.length === 0 ? (
-            <p style={{ color: '#ccc' }}>Belum ada pesan yang masuk.</p>
+            <p style={{ color: '#aaa' }}>Belum ada pesan yang masuk.</p>
           ) : (
             <div style={styles.tableContainer}>
               <table style={styles.table}>
@@ -107,9 +105,8 @@ export default function LoginPesan() {
     );
   }
 
-  // TAMPILAN FORM LOGIN (Jika belum Login)
   return (
-    <div style={styles.container}>
+    <div style={styles.pageBackground}>
       <form onSubmit={handleLogin} style={styles.card}>
         <h2 style={styles.title}>Login Admin Pesan</h2>
 
@@ -147,49 +144,53 @@ export default function LoginPesan() {
   );
 }
 
+// Styling tema Gelap / Hitam
 const styles = {
-  container: {
+  pageBackground: {
+    backgroundColor: '#121212', // Background gelap pekat
+    minHeight: '85vh',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    minHeight: '80vh',
-    padding: '20px',
+    padding: '40px 20px',
   },
   card: {
-    background: 'rgba(255, 255, 255, 0.05)',
-    border: '1px solid rgba(255, 255, 255, 0.15)',
-    padding: '30px',
+    background: '#1e1e1e', // Card abu-abu gelap
+    border: '1px solid #333',
+    padding: '32px',
     borderRadius: '8px',
     width: '100%',
     maxWidth: '380px',
     display: 'flex',
     flexDirection: 'column',
     gap: '16px',
+    boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
   },
   dashboardCard: {
-    background: 'rgba(255, 255, 255, 0.05)',
-    border: '1px solid rgba(255, 255, 255, 0.15)',
-    padding: '24px',
+    background: '#1e1e1e',
+    border: '1px solid #333',
+    padding: '28px',
     borderRadius: '8px',
     width: '100%',
-    maxWidth: '800px',
+    maxWidth: '900px',
+    boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
   },
   header: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: '20px',
-    color: '#fff',
   },
-  title: { color: '#fff', textAlign: 'center', marginBottom: '8px' },
+  title: { color: '#ffffff', textAlign: 'center', marginBottom: '8px', fontSize: '1.4rem' },
+  dashboardTitle: { color: '#ffffff', fontSize: '1.3rem' },
   inputGroup: { display: 'flex', flexDirection: 'column', gap: '6px' },
-  label: { color: '#ccc', fontSize: '0.85rem' },
+  label: { color: '#cccccc', fontSize: '0.85rem' },
   input: {
     padding: '10px 12px',
     borderRadius: '4px',
-    border: '1px solid rgba(255, 255, 255, 0.2)',
-    background: 'rgba(0, 0, 0, 0.2)',
-    color: '#fff',
+    border: '1px solid #444',
+    background: '#2a2a2a',
+    color: '#ffffff',
     outline: 'none',
   },
   button: {
@@ -210,9 +211,9 @@ const styles = {
     borderRadius: '4px',
     cursor: 'pointer',
   },
-  error: { color: '#ff3333', fontSize: '0.85rem', textAlign: 'center', margin: '0' },
+  error: { color: '#ff4d4d', fontSize: '0.85rem', textAlign: 'center', margin: '0' },
   tableContainer: { overflowX: 'auto' },
-  table: { width: '100%', borderCollapse: 'collapse', color: '#fff', marginTop: '10px' },
-  th: { borderBottom: '2px solid rgba(255,255,255,0.2)', padding: '10px', textAlign: 'left' },
-  td: { borderBottom: '1px solid rgba(255,255,255,0.1)', padding: '10px' },
+  table: { width: '100%', borderCollapse: 'collapse', color: '#e0e0e0', marginTop: '10px' },
+  th: { borderBottom: '2px solid #444', padding: '12px', textAlign: 'left', color: '#ff3333' },
+  td: { borderBottom: '1px solid #333', padding: '12px' },
 };
