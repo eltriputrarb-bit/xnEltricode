@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/pesan",
+      "destination": "/api/pesan.js"
+    },
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
+  ]
+}
